@@ -1,0 +1,69 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+<div class="row">
+  <!-- Card list-->
+    {% for card in latest_card_list %}
+<div class="col-sm-4 one-card">
+<div class="card" >
+  <div class="card-header">
+    <span class="text-primary">{{ card.card_text }}</span>
+	<a class="close float-right" aria-label="Close" href="{% url 'todo:del_card' card.id %}"><span aria-hidden="true">&times;</span></a>
+  </div>
+  <ul class="list-group list-group-flush">
+  <!-- Task list-->
+        {% for task in card.task_set.all %}        
+		<li class="list-group-item">
+		    <div class="custom-control custom-checkbox">
+		      <input type="checkbox"  onchange="window.location.href='{% url 'todo:mark_task' task.id %}'" class="custom-control-input" id="task-done{{task.pk}}" {% if task.done %}checked{% endif %}>
+		      <label class="custom-control-label" for="task-done{{task.pk}}">{{task.task_text}}</label>
+				   <a class="close float-right" aria-label="Close" href="{% url 'todo:del_task' task.id %}"><span aria-hidden="true">&times;</span></a>
+		    </div>
+		</li>
+        {% endfor %}
+    </ul>
+  <!-- Button trigger dropdown for add task-->
+  <div class="card-body">
+	<div class="btn-group dropup">
+    <a href="#" class="card-link"  class="btn btn-primary dropdown-toggle" data-toggle="dropdown">добавить задачу</a>
+	  <div class="dropdown-menu">
+	<form  class="px-4 py-3" action="{% url 'todo:add_task' card.id %}" method="post">
+	{% csrf_token %}
+	  <div class="form-group">
+	    <input type="text" class="form-control" name = "task_text" id="InputCardText" aria-describedby="TaskTextHelp" placeholder="Введите задачу">
+	    <input type="hidden"  class="btn btn-primary" name="card" value="{{card.id}}" />
+	  </div>
+	      <div class="modal-footer">
+			<input type="submit"  class="btn btn-primary" value="Добавить" />
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">&times;</button>
+	      </div>
+	</form>
+	</div>
+	</div>
+  </div>
+</div>
+</div>
+    {% endfor %}
+<div class="col-auto" style="margin-top: 10px">
+<div class="card" >
+<!-- Button trigger dropdown add card-->
+<div class="btn-group dropup">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    Создать новый список
+  </button>
+  <div class="dropdown-menu">
+  <form class="px-4 py-3" action="{% url 'todo:add_card'%}" method="post">
+	{% csrf_token %}
+    <div class="form-group">
+    <input type="text" class="form-control" name = "card_text" id="InputCardText" aria-describedby="CardTextHelp" placeholder="Введите название">
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+  </form>
+  <div class="dropdown-divider"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

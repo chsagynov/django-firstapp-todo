@@ -1,0 +1,43 @@
+li a {
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label{
+    text-decoration: line-through;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #e2e4e6; /*rgba(0,123,255,.5);*/
+}
+
+/*
+div.custom-control.custom-checkbox:hover {
+	background-color: #e2e4e6;
+}*/
+
+.custom-checkbox .custom-control-input~.custom-control-label::before {
+    background-color: rgba(0,123,255,.5);
+}
+
+.one-card {
+	min-width: 250px; 
+	margin-top: 10px;
+}
+
+.row {
+	overflow:visible;
+	min-height: 300px;
+}
+
+.card-header span {
+	color: .text-primary
+}
+
+.close {
+	opacity: .0;
+}
+
+.close:hover {
+	opacity: .3;
+}
